@@ -58,13 +58,13 @@ connection "grafana" {
   plugin = "grafana"
 
   # URL of the Grafana installation
-  url  = "http://localhost:3000"
+  url = "http://localhost:3000"
 
   # Authentication - API key
-  auth  = "eyJrIjoidGQ3VlMwVjlFVVc1TVNncjVWNGVYZnNDcaZIQkp2U2giLCJuIjoidGVzdDIsImlkIjoxfQ=="
+  auth = "eyJrIjoidGQ3VlMwVjlFVVc1TVNncjVWNGVYZnNDcaZIQkp2U2giLCJuIjoidGVzdDIsImlkIjoxfQ=="
 
   # Alternate authentication - username and password
-  # auth  = "admin:admin"
+  # auth = "admin:admin"
 }
 ```
 
