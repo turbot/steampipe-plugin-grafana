@@ -2,7 +2,7 @@
 organization: Turbot
 category: ["software development"]
 icon_url: "/images/plugins/turbot/grafana.svg"
-brand_color: "#00b050"
+brand_color: "#e0653b"
 display_name: "Grafana"
 short_name: "grafana"
 description: "Steampipe plugin to query dashboards, data sources and more from Grafana."

@@ -1,3 +1,9 @@
+## v0.0.2 [2021-10-06]
+
+_Bug fixes_
+
+- Fix brand color in Steampipe Hub icons.
+
 ## v0.0.1 [2021-10-06]
 
 _What's new?_
