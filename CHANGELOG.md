@@ -1,3 +1,9 @@
+## v0.1.0 [2021-12-15]
+
+_Enhancements_
+
+- Recompiled plugin with [steampipe-plugin-sdk-v1.8.2](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v182--2021-11-22) and Go version 1.17 ([#2](https://github.com/turbot/steampipe-plugin-grafana/pull/2))
+
 ## v0.0.2 [2021-10-06]
 
 _Bug fixes_
