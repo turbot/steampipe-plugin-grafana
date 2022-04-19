@@ -1,6 +1,6 @@
 module github.com/turbot/steampipe-plugin-grafana
 
-go 1.17
+go 1.18
 
 require (
 	github.com/grafana/grafana-api-golang-client v0.0.0-20211005011003-c69abe946fa6
