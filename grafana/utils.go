@@ -16,7 +16,7 @@ import (
 	//smapi "github.com/grafana/synthetic-monitoring-api-go-client"
 	"github.com/hashicorp/go-cleanhttp"
 
-	"github.com/turbot/steampipe-plugin-sdk/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
 )
 
 // Client manages the connection configuration.
