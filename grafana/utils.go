@@ -54,28 +54,26 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 
 	// Prefer config settings
 	grafanaConfig := GetConfig(d.Connection)
-	if &grafanaConfig != nil {
-		if grafanaConfig.URL != nil {
-			gurl = *grafanaConfig.URL
-		}
-		if grafanaConfig.Auth != nil {
-			auth = *grafanaConfig.Auth
-		}
-		if grafanaConfig.CaCert != nil {
-			caCert = *grafanaConfig.CaCert
-		}
-		if grafanaConfig.InsecureSkipVerify != nil {
-			insecureSkipVerify = *grafanaConfig.InsecureSkipVerify
-		}
-		if grafanaConfig.OrgID != nil {
-			orgID = *grafanaConfig.OrgID
-		}
-		if grafanaConfig.TLSCert != nil {
-			tlsCert = *grafanaConfig.TLSCert
-		}
-		if grafanaConfig.TLSKey != nil {
-			tlsKey = *grafanaConfig.TLSKey
-		}
+	if grafanaConfig.URL != nil {
+		gurl = *grafanaConfig.URL
+	}
+	if grafanaConfig.Auth != nil {
+		auth = *grafanaConfig.Auth
+	}
+	if grafanaConfig.CaCert != nil {
+		caCert = *grafanaConfig.CaCert
+	}
+	if grafanaConfig.InsecureSkipVerify != nil {
+		insecureSkipVerify = *grafanaConfig.InsecureSkipVerify
+	}
+	if grafanaConfig.OrgID != nil {
+		orgID = *grafanaConfig.OrgID
+	}
+	if grafanaConfig.TLSCert != nil {
+		tlsCert = *grafanaConfig.TLSCert
+	}
+	if grafanaConfig.TLSKey != nil {
+		tlsKey = *grafanaConfig.TLSKey
 	}
 
 	// Error if the minimum config is not set
