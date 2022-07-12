@@ -5,7 +5,7 @@ go 1.18
 require (
 	github.com/grafana/grafana-api-golang-client v0.0.0-20211005011003-c69abe946fa6
 	github.com/hashicorp/go-cleanhttp v0.5.2
-	github.com/turbot/steampipe-plugin-sdk/v3 v3.3.1
+	github.com/turbot/steampipe-plugin-sdk/v3 v3.3.2
 )
 
 require (
