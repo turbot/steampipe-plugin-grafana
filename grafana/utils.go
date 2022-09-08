@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"strconv"
@@ -90,7 +89,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 	transport.TLSClientConfig = &tls.Config{}
 
 	if caCert != "" {
-		ca, err := ioutil.ReadFile(caCert)
+		ca, err := os.ReadFile(caCert)
 		if err != nil {
 			return nil, fmt.Errorf("ca_cert error: %s", err.Error())
 		}
