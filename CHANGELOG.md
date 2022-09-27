@@ -1,3 +1,9 @@
+## v0.3.0 [2022-09-27]
+
+_Dependencies_
+
+- Recompiled plugin with [steampipe-plugin-sdk v4.1.7](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v417-2022-09-08) which includes several caching and memory management improvements. ([#11](https://github.com/turbot/steampipe-plugin-grafana/pull/11))ugin with Go version `1.19`. ([#11](https://github.com/turbot/steampipe-plugin-grafana/pull/11))
+
 ## v0.2.1 [2022-05-23]
 
 _Bug fixes_
