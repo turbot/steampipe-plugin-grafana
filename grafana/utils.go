@@ -6,7 +6,6 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"net/url"
 	"os"
 	"strconv"
@@ -16,7 +15,7 @@ import (
 	//smapi "github.com/grafana/synthetic-monitoring-api-go-client"
 	"github.com/hashicorp/go-cleanhttp"
 
-	"github.com/turbot/steampipe-plugin-sdk/v3/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
 )
 
 // Client manages the connection configuration.
@@ -90,7 +89,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 	transport.TLSClientConfig = &tls.Config{}
 
 	if caCert != "" {
-		ca, err := ioutil.ReadFile(caCert)
+		ca, err := os.ReadFile(caCert)
 		if err != nil {
 			return nil, fmt.Errorf("ca_cert error: %s", err.Error())
 		}
