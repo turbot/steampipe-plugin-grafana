@@ -3,8 +3,8 @@ package grafana
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableGrafanaFolder(ctx context.Context) *plugin.Table {
@@ -51,7 +51,7 @@ func getFolder(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) 
 		plugin.Logger(ctx).Error("grafana_folder.getFolder", "connection_error", err)
 		return nil, err
 	}
-	id := d.KeyColumnQuals["id"].GetInt64Value()
+	id := d.EqualsQuals["id"].GetInt64Value()
 	item, err := conn.gapi.Folder(id)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_folder.getFolder", "query_error", err, "id", id)

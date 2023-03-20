@@ -3,9 +3,9 @@ package grafana
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableGrafanaFolderPermission(ctx context.Context) *plugin.Table {
@@ -38,7 +38,7 @@ func listFolderPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		plugin.Logger(ctx).Error("grafana_folder.listFolderPermission", "connection_error", err)
 		return nil, err
 	}
-	fuid := d.KeyColumnQuals["folder_uid"].GetStringValue()
+	fuid := d.EqualsQuals["folder_uid"].GetStringValue()
 	items, err := conn.gapi.FolderPermissions(fuid)
 	if err != nil {
 		if isNotFoundError(err) {

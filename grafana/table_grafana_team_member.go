@@ -3,8 +3,8 @@ package grafana
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableGrafanaTeamMember(ctx context.Context) *plugin.Table {
@@ -34,7 +34,7 @@ func listTeamMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		plugin.Logger(ctx).Error("grafana_team.listTeamMember", "connection_error", err)
 		return nil, err
 	}
-	tid := d.KeyColumnQuals["team_id"].GetInt64Value()
+	tid := d.EqualsQuals["team_id"].GetInt64Value()
 	items, err := conn.gapi.TeamMembers(tid)
 	if err != nil {
 		if isNotFoundError(err) {
