@@ -1,3 +1,10 @@
+## v0.4.0 [2023-04-10]
+
+_Dependencies_
+
+- Recompiled plugin with [steampipe-plugin-sdk v5.3.0](https://github.com/turbot/steampipe-plugin-sdk/blob/main/CHANGELOG.md#v530-2023-03-16) which includes fixes for query cache pending item mechanism and aggregator connections not working for dynamic tables. ([#14](https://github.com/turbot/steampipe-plugin-grafana/pull/14))
+- Recompiled plugin with [grafana-api-golang-client v0.12.0](https://github.com/grafana/grafana-api-golang-client/releases/tag/v0.12.0)
+
 ## v0.3.0 [2022-09-27]
 
 _Dependencies_
