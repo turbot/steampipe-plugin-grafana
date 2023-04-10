@@ -3,8 +3,8 @@ package grafana
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableGrafanaOrg(ctx context.Context) *plugin.Table {
@@ -51,8 +51,8 @@ func getOrg(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (in
 		return nil, err
 	}
 	// Prefer to get by ID
-	if d.KeyColumnQuals["id"] != nil {
-		id := d.KeyColumnQuals["id"].GetInt64Value()
+	if d.EqualsQuals["id"] != nil {
+		id := d.EqualsQuals["id"].GetInt64Value()
 		item, err := conn.gapi.Org(id)
 		if err != nil {
 			plugin.Logger(ctx).Error("grafana_org.getOrg", "query_error", err, "id", id)
@@ -61,7 +61,7 @@ func getOrg(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (in
 		return item, nil
 	}
 	// Otherwise, get by name
-	name := d.KeyColumnQuals["name"].GetStringValue()
+	name := d.EqualsQuals["name"].GetStringValue()
 	item, err := conn.gapi.OrgByName(name)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_org.getOrg", "query_error", err, "name", name)

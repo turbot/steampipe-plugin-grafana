@@ -5,9 +5,9 @@ import (
 
 	gapi "github.com/grafana/grafana-api-golang-client"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 func tableGrafanaTeam(ctx context.Context) *plugin.Table {
@@ -46,8 +46,8 @@ func listTeam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 		return nil, err
 	}
 	query := ""
-	if d.KeyColumnQuals["query"] != nil {
-		query = d.KeyColumnQuals["query"].GetStringValue()
+	if d.EqualsQuals["query"] != nil {
+		query = d.EqualsQuals["query"].GetStringValue()
 	}
 	result, err := conn.gapi.SearchTeam(query)
 	if err != nil {
@@ -66,7 +66,7 @@ func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		plugin.Logger(ctx).Error("grafana_team.getTeam", "connection_error", err)
 		return nil, err
 	}
-	id := d.KeyColumnQuals["id"].GetInt64Value()
+	id := d.EqualsQuals["id"].GetInt64Value()
 	item, err := conn.gapi.Team(id)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_team.getTeam", "query_error", err, "id", id)

@@ -5,8 +5,8 @@ import (
 
 	gapi "github.com/grafana/grafana-api-golang-client"
 
-	"github.com/turbot/steampipe-plugin-sdk/v4/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v4/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func tableGrafanaUser(ctx context.Context) *plugin.Table {
@@ -78,8 +78,8 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 	}
 
 	// Prefer to get by ID
-	if d.KeyColumnQuals["id"] != nil {
-		id := d.KeyColumnQuals["id"].GetInt64Value()
+	if d.EqualsQuals["id"] != nil {
+		id := d.EqualsQuals["id"].GetInt64Value()
 		item, err := conn.gapi.User(id)
 		if err != nil {
 			plugin.Logger(ctx).Error("grafana_user.getUser", "query_error", err, "id", id)
@@ -89,7 +89,7 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 	}
 
 	// Otherwise, get by email
-	email := d.KeyColumnQuals["email"].GetStringValue()
+	email := d.EqualsQuals["email"].GetStringValue()
 	item, err := conn.gapi.UserByEmail(email)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_user.getUser", "query_error", err, "email", email)
