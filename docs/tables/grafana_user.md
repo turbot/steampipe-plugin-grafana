@@ -11,6 +11,9 @@ Grafana is a multi-platform open-source analytics and interactive visualization 
 
 The `grafana_user` table provides insights into user accounts within Grafana. As an administrator or security analyst, explore user-specific details through this table, including their roles, permissions, and associated metadata. Utilize it to manage user access control, review user permissions, and ensure adherence to security policies.
 
+**Important Notes**
+- The API used by this table requires admin user access via basic authentication (i.e. `admin:password`) in the `auth` config field. [Reference](https://grafana.com/docs/grafana/latest/http_api/user/#search-users).
+
 ## Examples
 
 ### List all users

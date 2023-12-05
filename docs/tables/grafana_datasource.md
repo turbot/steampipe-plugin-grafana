@@ -11,6 +11,9 @@ Grafana is an open-source platform for data visualization, monitoring, and analy
 
 The `grafana_datasource` table provides insights into Datasources within Grafana. As a Data Analyst or DevOps engineer, explore datasource-specific details through this table, including its type, access mode, database name, and other configuration details. Utilize it to manage and monitor your data sources, ensuring they are correctly configured and functioning as expected.
 
+**Important Notes**
+- You must specify the `id` in the `where` clause to query this table.
+
 ## Examples
 
 ### Get information for a data source

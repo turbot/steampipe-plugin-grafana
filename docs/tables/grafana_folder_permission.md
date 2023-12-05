@@ -11,6 +11,9 @@ Grafana Folder Permissions is a feature within Grafana that allows the assignmen
 
 The `grafana_folder_permission` table provides insights into the permissions assigned to folders within a Grafana instance. As a system administrator or security analyst, explore folder-specific permission details through this table, including the role, user, team, and permission level assigned to each folder. Utilize it to uncover information about user access, such as who can view or edit certain dashboards, and to ensure the proper implementation of access control policies.
 
+**Important Notes**
+- You must specify the `folder_uid` in the `where` clause to query this table.
+
 ## Examples
 
 ### List all permissions for a folder

@@ -11,6 +11,9 @@ Grafana Team Members are the users associated with a specific team in Grafana, a
 
 The `grafana_team_member` table provides insights into the team members within Grafana. As a system administrator, you can explore member-specific details through this table, including their role, email, and associated metadata. Use it to manage and monitor user access and permissions, ensuring appropriate security and functionality within your Grafana teams.
 
+**Important Notes**
+- You must specify the `team_id` in the `where` clause to query this table.
+
 ## Examples
 
 ### List all members for a team

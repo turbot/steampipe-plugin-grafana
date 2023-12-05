@@ -11,6 +11,9 @@ Grafana Organizations are a way to manage access to resources in Grafana. Each u
 
 The `grafana_org` table allows users to gain insights into Grafana Organizations. As a system administrator or a DevOps engineer, you can use this table to fetch details about different organizations, their associated users, and dashboards. This can be particularly beneficial for managing access to resources and ensuring the isolation of resources across different organizations.
 
+**Important Notes**
+- The API used by this table requires admin user access via basic authentication (i.e. `admin:password`) in the `auth` config field. [Reference](https://grafana.com/docs/grafana/latest/http_api/org/#search-all-organizations).
+
 ## Examples
 
 ### List all orgs
