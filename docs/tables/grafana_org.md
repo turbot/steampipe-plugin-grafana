@@ -19,9 +19,16 @@ The `grafana_org` table allows users to gain insights into Grafana Organizations
 ### List all orgs
 Explore the various organizations within your Grafana setup to understand their settings and configurations. This aids in managing resources and maintaining an overview of your organizational structure.
 
-```sql
+```sql+postgres
 select
   *
 from
-  grafana_org
+  grafana_org;
+```
+
+```sql+sqlite
+select
+  *
+from
+  grafana_org;
 ```

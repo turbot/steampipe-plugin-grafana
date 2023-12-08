@@ -16,17 +16,24 @@ The `grafana_folder` table provides insights into the organization of dashboards
 ### List all folders
 Explore all folders within your Grafana setup to understand their structure and organization. This can be particularly useful for managing and navigating your data visualization projects.
 
-```sql
+```sql+postgres
 select
   *
 from
-  grafana_folder
+  grafana_folder;
+```
+
+```sql+sqlite
+select
+  *
+from
+  grafana_folder;
 ```
 
 ### List all folders with their permissions
 Explore which Grafana folders have specific permissions to determine areas in which access may need to be revised or updated. This is useful for managing access control and ensuring appropriate levels of data security.
 
-```sql
+```sql+postgres
 select
   f.uid,
   f.title,
@@ -35,5 +42,17 @@ from
   grafana_folder as f,
   grafana_folder_permission as fp
 where
-  f.uid = fp.folder_uid
+  f.uid = fp.folder_uid;
+```
+
+```sql+sqlite
+select
+  f.uid,
+  f.title,
+  fp.*
+from
+  grafana_folder as f,
+  grafana_folder_permission as fp
+where
+  f.uid = fp.folder_uid;
 ```

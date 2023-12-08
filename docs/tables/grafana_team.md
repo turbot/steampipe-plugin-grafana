@@ -16,17 +16,24 @@ The `grafana_team` table provides insights into Teams within Grafana. As a DevOp
 ### List all teams
 Explore all the teams available in your Grafana instance to manage permissions and access controls more effectively.
 
-```sql
+```sql+postgres
 select
   *
 from
-  grafana_team
+  grafana_team;
+```
+
+```sql+sqlite
+select
+  *
+from
+  grafana_team;
 ```
 
 ### List teams with the most members
 Discover the teams that have the highest number of members. This information can be useful in understanding team dynamics and resource allocation within the organization.
 
-```sql
+```sql+postgres
 select
   name,
   member_count
@@ -34,18 +41,39 @@ from
   grafana_team
 order by
   member_count desc
-limit 5
+limit 5;
+```
+
+```sql+sqlite
+select
+  name,
+  member_count
+from
+  grafana_team
+order by
+  member_count desc
+limit 5;
 ```
 
 ### List teams with no members (e.g. to clean up)
 Determine the teams that currently have no members, which may be useful for organizational cleanup or restructuring.
 
-```sql
+```sql+postgres
 select
   name,
   member_count
 from
   grafana_team
 where
-  member_count = 0
+  member_count = 0;
+```
+
+```sql+sqlite
+select
+  name,
+  member_count
+from
+  grafana_team
+where
+  member_count = 0;
 ```

@@ -19,19 +19,28 @@ The `grafana_folder_permission` table provides insights into the permissions ass
 ### List all permissions for a folder
 Explore which permissions are granted for a specific folder in Grafana to manage access control effectively. This can help in maintaining security and ensuring only authorized users can make changes.
 
-```sql
+```sql+postgres
 select
   *
 from
   grafana_folder
 where
-  folder_uid = 'BtcDlQ97z'
+  folder_uid = 'BtcDlQ97z';
+```
+
+```sql+sqlite
+select
+  *
+from
+  grafana_folder
+where
+  folder_uid = 'BtcDlQ97z';
 ```
 
 ### List all folders with their permissions
 Explore which folders have specific permissions in your Grafana setup. This can help in managing access controls and ensuring proper security protocols.
 
-```sql
+```sql+postgres
 select
   f.uid,
   f.title,
@@ -40,5 +49,17 @@ from
   grafana_folder as f,
   grafana_folder_permission as fp
 where
-  f.uid = fp.folder_uid
+  f.uid = fp.folder_uid;
+```
+
+```sql+sqlite
+select
+  f.uid,
+  f.title,
+  fp.*
+from
+  grafana_folder as f,
+  grafana_folder_permission as fp
+where
+  f.uid = fp.folder_uid;
 ```

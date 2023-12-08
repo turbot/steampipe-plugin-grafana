@@ -19,7 +19,7 @@ The `grafana_datasource` table provides insights into Datasources within Grafana
 ### Get information for a data source
 Explore which type of data source is being used in your Grafana setup by identifying it through a specific identifier. This can help in managing and troubleshooting your data visualization configurations.
 
-```sql
+```sql+postgres
 select
   id,
   name,
@@ -27,18 +27,39 @@ select
 from
   grafana_datasource
 where
-  id = 1
+  id = 1;
+```
+
+```sql+sqlite
+select
+  id,
+  name,
+  datasource_type
+from
+  grafana_datasource
+where
+  id = 1;
 ```
 
 ### Get configuration of a data source
 Analyze the settings to understand the configuration of a specific data source in Grafana. This could be used to troubleshoot issues or optimize data source utilization.
 
-```sql
+```sql+postgres
 select
   name,
   jsonb_pretty(json_data)
 from
   grafana_datasource
 where
-  id = 1
+  id = 1;
+```
+
+```sql+sqlite
+select
+  name,
+  json_data
+from
+  grafana_datasource
+where
+  id = 1;
 ```

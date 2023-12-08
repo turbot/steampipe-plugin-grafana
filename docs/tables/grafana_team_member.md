@@ -19,19 +19,28 @@ The `grafana_team_member` table provides insights into the team members within G
 ### List all members for a team
 Explore which users are part of a specific team in Grafana, useful for understanding team composition and managing user access rights.
 
-```sql
+```sql+postgres
 select
   *
 from
   grafana_team_member
 where
-  team_id = 1
+  team_id = 1;
+```
+
+```sql+sqlite
+select
+  *
+from
+  grafana_team_member
+where
+  team_id = 1;
 ```
 
 ### List all members of all teams
 Explore which members belong to which teams in Grafana to understand team composition and facilitate effective communication. This is useful for managers to keep track of team structures and ensure the right teams are working on the right projects.
 
-```sql
+```sql+postgres
 select
   t.name,
   tm.login,
@@ -40,5 +49,17 @@ from
   grafana_team as t,
   grafana_team_member as tm
 where
-  tm.team_id = t.id
+  tm.team_id = t.id;
+```
+
+```sql+sqlite
+select
+  t.name,
+  tm.login,
+  tm.email
+from
+  grafana_team as t,
+  grafana_team_member as tm
+where
+  tm.team_id = t.id;
 ```
