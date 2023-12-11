@@ -77,7 +77,4 @@ connection "grafana" {
 - `tls_cert` - Client TLS certificate file to use to authenticate to the Grafana server. May alternatively be set via the `GRAFANA_TLS_CERT` environment variable.
 - `tls_key` - Client TLS key file to use to authenticate to the Grafana server. May alternatively be set via the `GRAFANA_TLS_KEY` environment variable.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-grafana
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
