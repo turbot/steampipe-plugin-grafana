@@ -8,6 +8,7 @@ short_name: "grafana"
 description: "Steampipe plugin to query dashboards, data sources and more from Grafana."
 og_description: "Query Grafana with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/grafana-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Grafana + Steampipe
