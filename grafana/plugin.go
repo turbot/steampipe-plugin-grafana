@@ -12,7 +12,6 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		Name: "steampipe-plugin-grafana",
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
-			Schema:      ConfigSchema,
 		},
 		DefaultTransform: transform.FromGo().NullIfZero(),
 		DefaultGetConfig: &plugin.GetConfig{
