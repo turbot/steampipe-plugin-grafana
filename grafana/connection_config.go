@@ -2,41 +2,16 @@ package grafana
 
 import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
 
 type grafanaConfig struct {
-	URL                *string `cty:"url"`
-	Auth               *string `cty:"auth"`
-	CaCert             *string `cty:"ca_cert"`
-	InsecureSkipVerify *bool   `cty:"insecure_skip_verify"`
-	OrgID              *int    `cty:"org_id"`
-	TLSCert            *string `cty:"tls_cert"`
-	TLSKey             *string `cty:"tls_key"`
-}
-
-var ConfigSchema = map[string]*schema.Attribute{
-	"url": {
-		Type: schema.TypeString,
-	},
-	"auth": {
-		Type: schema.TypeString,
-	},
-	"ca_cert": {
-		Type: schema.TypeString,
-	},
-	"insecure_skip_verify": {
-		Type: schema.TypeBool,
-	},
-	"org_id": {
-		Type: schema.TypeInt,
-	},
-	"tls_cert": {
-		Type: schema.TypeString,
-	},
-	"tls_key": {
-		Type: schema.TypeString,
-	},
+	URL                *string `hcl:"url"`
+	Auth               *string `hcl:"auth"`
+	CaCert             *string `hcl:"ca_cert"`
+	InsecureSkipVerify *bool   `hcl:"insecure_skip_verify"`
+	OrgID              *int    `hcl:"org_id"`
+	TLSCert            *string `hcl:"tls_cert"`
+	TLSKey             *string `hcl:"tls_key"`
 }
 
 func ConfigInstance() interface{} {
