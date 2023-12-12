@@ -8,13 +8,14 @@ short_name: "grafana"
 description: "Steampipe plugin to query dashboards, data sources and more from Grafana."
 og_description: "Query Grafana with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/grafana-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # Grafana + Steampipe
 
 [Grafana](https://grafana.com) is a cloud hosting company that provides virtual private servers and other infrastructure services.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List dashboards in your Grafana account:
 
@@ -76,7 +77,4 @@ connection "grafana" {
 - `tls_cert` - Client TLS certificate file to use to authenticate to the Grafana server. May alternatively be set via the `GRAFANA_TLS_CERT` environment variable.
 - `tls_key` - Client TLS key file to use to authenticate to the Grafana server. May alternatively be set via the `GRAFANA_TLS_KEY` environment variable.
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-grafana
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
