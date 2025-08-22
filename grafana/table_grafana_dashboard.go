@@ -33,7 +33,7 @@ func tableGrafanaDashboard(ctx context.Context) *plugin.Table {
 			{Name: "folder_uid", Type: proto.ColumnType_STRING, Description: "Globally unique identifier of the folder that contains the dashboard."},
 			{Name: "folder_url", Type: proto.ColumnType_STRING, Description: "URL of the folder that contains the dashboard."},
 			{Name: "is_starred", Type: proto.ColumnType_BOOL, Description: "True if the dashboard has been starred."},
-			{Name: "model", Type: proto.ColumnType_JSON, Hydrate: getDashboard, Transform: transform.FromField("Dashboard"), Description: "Full data model representing the dashbaord configuration."},
+			{Name: "model", Type: proto.ColumnType_JSON, Hydrate: getDashboard, Transform: transform.FromField("Dashboard"), Description: "Full data model representing the dashboard configuration."},
 			{Name: "slug", Type: proto.ColumnType_STRING, Hydrate: getDashboard, Transform: transform.FromField("Meta.Slug"), Description: "Slug of the dashboard."},
 			{Name: "tags", Type: proto.ColumnType_JSON, Description: "List of tags for the dashboard."},
 			{Name: "uri", Type: proto.ColumnType_STRING, Description: "URI of the dashboard."},
