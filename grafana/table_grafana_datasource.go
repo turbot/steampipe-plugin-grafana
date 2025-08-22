@@ -2,6 +2,7 @@ package grafana
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -43,10 +44,16 @@ func getDatasource(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateDa
 		return nil, err
 	}
 	id := d.EqualsQuals["id"].GetInt64Value()
-	item, err := conn.gapi.DataSource(id)
+
+	// Convert int64 to string for the API call
+	idStr := strconv.FormatInt(id, 10)
+
+	// Use the datasources API to get datasource by ID
+	result, err := conn.client.Datasources.GetDataSourceByID(idStr)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_datasource.getDatasource", "query_error", err, "id", id)
 		return nil, err
 	}
-	return item, nil
+
+	return result.Payload, nil
 }

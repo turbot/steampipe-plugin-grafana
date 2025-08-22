@@ -10,9 +10,10 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
-	gapi "github.com/grafana/grafana-api-golang-client"
-	//smapi "github.com/grafana/synthetic-monitoring-api-go-client"
+	"github.com/go-openapi/strfmt"
+	goapi "github.com/grafana/grafana-openapi-client-go/client"
 	"github.com/hashicorp/go-cleanhttp"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -20,9 +21,7 @@ import (
 
 // Client manages the connection configuration.
 type Client struct {
-	gapi *gapi.Client
-	// Not used yet, but reserved for similar use to Terraform provider
-	//smapi *smapi.Client
+	client *goapi.GrafanaHTTPAPI
 }
 
 func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
@@ -42,13 +41,14 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 	tlsCert := os.Getenv("GRAFANA_TLS_CERT")
 	tlsKey := os.Getenv("GRAFANA_TLS_KEY")
 
-	var orgID int
+	var orgID int64
 	var err error
 	if orgIDString != "" {
-		orgID, err = strconv.Atoi(orgIDString)
+		orgIDInt, err := strconv.Atoi(orgIDString)
 		if err != nil {
 			return nil, fmt.Errorf("org_id is not a valid integer")
 		}
+		orgID = int64(orgIDInt)
 	}
 
 	// Prefer config settings
@@ -66,7 +66,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 		insecureSkipVerify = *grafanaConfig.InsecureSkipVerify
 	}
 	if grafanaConfig.OrgID != nil {
-		orgID = *grafanaConfig.OrgID
+		orgID = int64(*grafanaConfig.OrgID)
 	}
 	if grafanaConfig.TLSCert != nil {
 		tlsCert = *grafanaConfig.TLSCert
@@ -83,11 +83,14 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 		return nil, errors.New("auth must be configured")
 	}
 
-	conn := &Client{}
-	cli := cleanhttp.DefaultClient()
-	transport := cleanhttp.DefaultTransport()
-	transport.TLSClientConfig = &tls.Config{}
+	// Parse the URL to extract host and scheme
+	parsedURL, err := url.Parse(gurl)
+	if err != nil {
+		return nil, fmt.Errorf("invalid URL: %s", err.Error())
+	}
 
+	// Configure TLS
+	tlsConfig := &tls.Config{}
 	if caCert != "" {
 		ca, err := os.ReadFile(caCert)
 		if err != nil {
@@ -95,39 +98,57 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 		}
 		pool := x509.NewCertPool()
 		pool.AppendCertsFromPEM(ca)
-		transport.TLSClientConfig.RootCAs = pool
+		tlsConfig.RootCAs = pool
 	}
 	if tlsKey != "" && tlsCert != "" {
 		cert, err := tls.LoadX509KeyPair(tlsCert, tlsKey)
 		if err != nil {
 			return nil, fmt.Errorf("tls_key and tls_cert error: %s", err.Error())
 		}
-		transport.TLSClientConfig.Certificates = []tls.Certificate{cert}
+		tlsConfig.Certificates = []tls.Certificate{cert}
 	}
 	if insecureSkipVerify {
-		transport.TLSClientConfig.InsecureSkipVerify = true
+		tlsConfig.InsecureSkipVerify = true
 	}
 
-	//cli.Transport = logging.NewTransport("Grafana", transport)
-	cfg := gapi.Config{
-		Client: cli,
+	// Create HTTP client with TLS config
+	httpClient := cleanhttp.DefaultClient()
+	transport := cleanhttp.DefaultTransport()
+	transport.TLSClientConfig = tlsConfig
+	httpClient.Transport = transport
+
+	// Configure the Grafana OpenAPI client
+	cfg := goapi.DefaultTransportConfig()
+	cfg.Host = parsedURL.Host
+	cfg.BasePath = "/api"
+	if parsedURL.Scheme == "https" {
+		cfg.Schemes = []string{"https"}
+	} else {
+		cfg.Schemes = []string{"http"}
 	}
-	// If the org is set, then put it on the config
-	if orgID != 0 {
-		cfg.OrgID = int64(orgID)
-	}
+	cfg.Client = httpClient
+	cfg.NumRetries = 3
+	cfg.RetryTimeout = 5 * time.Second
+
+	// Configure authentication
 	authParts := strings.SplitN(auth, ":", 2)
 	if len(authParts) == 2 {
+		// Basic auth
 		cfg.BasicAuth = url.UserPassword(authParts[0], authParts[1])
+		if orgID != 0 {
+			cfg.OrgID = orgID
+		}
 	} else {
+		// API key
 		cfg.APIKey = authParts[0]
 	}
-	gclient, err := gapi.New(gurl, cfg)
-	if err != nil {
-		return nil, err
-	}
 
-	conn.gapi = gclient
+	// Create the client
+	client := goapi.NewHTTPClientWithConfig(strfmt.Default, cfg)
+
+	conn := &Client{
+		client: client,
+	}
 
 	// Save to cache
 	d.ConnectionManager.Cache.Set(cacheKey, conn)

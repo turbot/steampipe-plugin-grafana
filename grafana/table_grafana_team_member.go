@@ -2,6 +2,7 @@ package grafana
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -35,7 +36,12 @@ func listTeamMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		return nil, err
 	}
 	tid := d.EqualsQuals["team_id"].GetInt64Value()
-	items, err := conn.gapi.TeamMembers(tid)
+
+	// Convert int64 to string for the API call
+	tidStr := strconv.FormatInt(tid, 10)
+
+	// Use the teams API to get team members
+	result, err := conn.client.Teams.GetTeamMembers(tidStr)
 	if err != nil {
 		if isNotFoundError(err) {
 			return nil, nil
@@ -43,8 +49,10 @@ func listTeamMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		plugin.Logger(ctx).Error("grafana_team.listTeamMember", "query_error", err, "team_id", tid)
 		return nil, err
 	}
-	for _, i := range items {
-		d.StreamListItem(ctx, i)
+
+
+	for _, member := range result.Payload {
+		d.StreamListItem(ctx, member)
 	}
 	return nil, nil
 }

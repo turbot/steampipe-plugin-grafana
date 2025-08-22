@@ -3,7 +3,8 @@ package grafana
 import (
 	"context"
 
-	gapi "github.com/grafana/grafana-api-golang-client"
+	"github.com/grafana/grafana-openapi-client-go/client/users"
+	"github.com/grafana/grafana-openapi-client-go/models"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -47,15 +48,43 @@ func listUser(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 		plugin.Logger(ctx).Error("grafana_user.listUser", "connection_error", err)
 		return nil, err
 	}
-	// NOTE: API supports paging, but SDK does not
-	items, err := conn.gapi.Users()
-	if err != nil {
-		plugin.Logger(ctx).Error("grafana_user.listUser", "query_error", err)
-		return nil, err
+
+	// Use the users API to search for users with pagination
+	params := users.NewSearchUsersParams()
+	page := int64(1)      // Start with first page
+	perpage := int64(100) // Default page size
+
+	params.WithPage(&page)
+	params.WithPerpage(&perpage)
+
+	// Continue fetching pages until no more results
+	for {
+		result, err := conn.client.Users.SearchUsers(params)
+		if err != nil {
+			plugin.Logger(ctx).Error("grafana_user.listUser", "query_error", err)
+			return nil, err
+		}
+
+		// If no results, break the loop
+		if len(result.Payload) == 0 {
+			break
+		}
+
+		// Stream the results from this page
+		for _, user := range result.Payload {
+			d.StreamListItem(ctx, user)
+		}
+
+		// If we got fewer results than the perpage limit, we've reached the end
+		if len(result.Payload) < int(perpage) {
+			break
+		}
+
+		// Move to next page
+		page++
+		params.WithPage(&page)
 	}
-	for _, i := range items {
-		d.StreamListItem(ctx, i)
-	}
+
 	return nil, nil
 }
 
@@ -68,32 +97,32 @@ func getUser(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 
 	// Hydrate data into the list row
 	if h.Item != nil {
-		user := h.Item.(gapi.UserSearch)
-		item, err := conn.gapi.User(user.ID)
+		user := h.Item.(*models.UserSearchHitDTO)
+		result, err := conn.client.Users.GetUserByID(user.ID)
 		if err != nil {
 			plugin.Logger(ctx).Error("grafana_user.getUser", "query_error", err, "user", user)
 			return nil, err
 		}
-		return item, nil
+		return result.Payload, nil
 	}
 
 	// Prefer to get by ID
 	if d.EqualsQuals["id"] != nil {
 		id := d.EqualsQuals["id"].GetInt64Value()
-		item, err := conn.gapi.User(id)
+		result, err := conn.client.Users.GetUserByID(id)
 		if err != nil {
 			plugin.Logger(ctx).Error("grafana_user.getUser", "query_error", err, "id", id)
 			return nil, err
 		}
-		return item, nil
+		return result.Payload, nil
 	}
 
 	// Otherwise, get by email
 	email := d.EqualsQuals["email"].GetStringValue()
-	item, err := conn.gapi.UserByEmail(email)
+	result, err := conn.client.Users.GetUserByLoginOrEmail(email)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_user.getUser", "query_error", err, "email", email)
 		return nil, err
 	}
-	return item, nil
+	return result.Payload, nil
 }
