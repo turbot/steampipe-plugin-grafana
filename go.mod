@@ -5,7 +5,7 @@ go 1.24
 toolchain go1.24.1
 
 require (
-	github.com/grafana/grafana-api-golang-client v0.12.0
+	github.com/grafana/grafana-api-golang-client v0.27.0
 	github.com/hashicorp/go-cleanhttp v0.5.2
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.13.0
 )
