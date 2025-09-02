@@ -2,8 +2,10 @@ package grafana
 
 import (
 	"context"
+	"strconv"
 
-	gapi "github.com/grafana/grafana-api-golang-client"
+	"github.com/grafana/grafana-openapi-client-go/client/teams"
+	"github.com/grafana/grafana-openapi-client-go/models"
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
@@ -45,18 +47,48 @@ func listTeam(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (
 		plugin.Logger(ctx).Error("grafana_team.listTeam", "connection_error", err)
 		return nil, err
 	}
-	query := ""
+
+	// Use the teams API to search for teams with pagination
+	params := teams.NewSearchTeamsParams()
 	if d.EqualsQuals["query"] != nil {
-		query = d.EqualsQuals["query"].GetStringValue()
+		query := d.EqualsQuals["query"].GetStringValue()
+		params.WithQuery(&query)
 	}
-	result, err := conn.gapi.SearchTeam(query)
-	if err != nil {
-		plugin.Logger(ctx).Error("grafana_team.listTeam", "query_error", err, "query", query)
-		return nil, err
+
+	// Set pagination parameters
+	page := int64(1)      // Start with first page
+	perpage := int64(100) // Default page size
+	params.WithPage(&page)
+	params.WithPerpage(&perpage)
+
+	// Continue fetching pages until no more results
+	for {
+		result, err := conn.client.Teams.SearchTeams(params)
+		if err != nil {
+			plugin.Logger(ctx).Error("grafana_team.listTeam", "query_error", err)
+			return nil, err
+		}
+
+		// If no results, break the loop
+		if len(result.Payload.Teams) == 0 {
+			break
+		}
+
+		// Stream the results from this page
+		for _, team := range result.Payload.Teams {
+			d.StreamListItem(ctx, team)
+		}
+
+		// If we got fewer results than the perpage limit, we've reached the end
+		if len(result.Payload.Teams) < int(perpage) {
+			break
+		}
+
+		// Move to next page
+		page++
+		params.WithPage(&page)
 	}
-	for _, i := range result.Teams {
-		d.StreamListItem(ctx, i)
-	}
+
 	return nil, nil
 }
 
@@ -67,12 +99,18 @@ func getTeam(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (i
 		return nil, err
 	}
 	id := d.EqualsQuals["id"].GetInt64Value()
-	item, err := conn.gapi.Team(id)
+
+	// Convert int64 to string for the API call
+	idStr := strconv.FormatInt(id, 10)
+
+	// Use the teams API to get team by ID
+	result, err := conn.client.Teams.GetTeamByID(idStr)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_team.getTeam", "query_error", err, "id", id)
 		return nil, err
 	}
-	return item, nil
+
+	return result.Payload, nil
 }
 
 func getTeamPreferences(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
@@ -81,11 +119,16 @@ func getTeamPreferences(ctx context.Context, d *plugin.QueryData, h *plugin.Hydr
 		plugin.Logger(ctx).Error("grafana_team.getTeam", "connection_error", err)
 		return nil, err
 	}
-	team := h.Item.(*gapi.Team)
-	item, err := conn.gapi.TeamPreferences(team.ID)
+
+	team := h.Item.(*models.TeamDTO)
+	idStr := strconv.FormatInt(team.ID, 10)
+
+	// Use the teams API to get team preferences
+	result, err := conn.client.Teams.GetTeamPreferences(idStr)
 	if err != nil {
 		plugin.Logger(ctx).Error("grafana_team.getTeamPreferences", "query_error", err, "team", team)
 		return nil, err
 	}
-	return item, nil
+
+	return result.Payload, nil
 }

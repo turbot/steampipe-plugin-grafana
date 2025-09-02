@@ -39,7 +39,9 @@ func listFolderPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		return nil, err
 	}
 	fuid := d.EqualsQuals["folder_uid"].GetStringValue()
-	items, err := conn.gapi.FolderPermissions(fuid)
+
+	// Use the folder permissions API to get permissions for the folder
+	result, err := conn.client.FolderPermissions.GetFolderPermissionList(fuid)
 	if err != nil {
 		if isNotFoundError(err) {
 			return nil, nil
@@ -47,8 +49,9 @@ func listFolderPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.Hy
 		plugin.Logger(ctx).Error("grafana_folder.listFolderPermission", "query_error", err, "folder_uid", fuid)
 		return nil, err
 	}
-	for _, i := range items {
-		d.StreamListItem(ctx, i)
+
+	for _, permission := range result.Payload {
+		d.StreamListItem(ctx, permission)
 	}
 	return nil, nil
 }
