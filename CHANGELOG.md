@@ -1,3 +1,11 @@
+## v1.2.0 [2025-09-04]
+
+_Dependencies_
+
+- Recompiled plugin with [github.com/grafana/grafana-openapi-client-go](https://github.com/grafana/grafana-openapi-client-go). ([#47](https://github.com/turbot/steampipe-plugin-grafana/pull/47))
+- Recompiled plugin with Go version `1.24`. ([#45](https://github.com/turbot/steampipe-plugin-grafana/pull/45))
+- Recompiled plugin with [steampipe-plugin-sdk v5.13.0](https://github.com/turbot/steampipe-plugin-sdk/blob/develop/CHANGELOG.md#v5130-2025-07-21) that addresses critical and high vulnerabilities in dependent packages. ([#45](https://github.com/turbot/steampipe-plugin-grafana/pull/45))
+
 ## v1.1.1 [2025-04-18]
 
 _Bug fixes_
