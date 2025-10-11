@@ -19,7 +19,7 @@ func tableGrafanaFolderPermission(ctx context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			// Top columns
 			// NOTE - Always zero? {Name: "id", Type: proto.ColumnType_INT, Description: "Unique identifier for the folder."},
-			{Name: "folder_uid", Type: proto.ColumnType_STRING, Transform: transform.FromField("FolderUID"), Description: "Globally unique identifier for the folder."},
+			{Name: "folder_uid", Type: proto.ColumnType_STRING, Transform: transform.FromField("UID"), Description: "Globally unique identifier for the folder."},
 			{Name: "user_id", Type: proto.ColumnType_INT, Description: "ID of the user granted the permission."},
 			{Name: "team_id", Type: proto.ColumnType_INT, Description: "ID of the team granted the permission."},
 			{Name: "role", Type: proto.ColumnType_STRING, Description: "Role granted in the permission."},
