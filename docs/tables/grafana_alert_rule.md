@@ -13,20 +13,37 @@ Use the `grafana_alert_rule` table to explore alert rule details such as `uid`, 
 
 ## Examples
 
+### Basic info
+
+Retrieve key information about your Grafana alert rules, such as their names, groups, folders, conditions, evaluation intervals, labels, and pause status. This query helps you quickly audit your alert configuration, see which rules are currently paused, how rules are grouped, and what labels are used for routing and categorization.
+
+
 ### List all alert rules
 Explore all alert rules in your Grafana instance.
 
 ```sql+postgres
-select
-  *
-from
+select 
+  title, 
+  rule_group, 
+  folder_uid, 
+  condition, 
+  interval, 
+  labels, 
+  is_paused 
+from 
   grafana_alert_rule;
 ```
 
 ```sql+sqlite
-select
-  *
-from
+select 
+  title, 
+  rule_group, 
+  folder_uid, 
+  condition, 
+  interval, 
+  labels, 
+  is_paused 
+from 
   grafana_alert_rule;
 ```
 

@@ -20,12 +20,12 @@ func tableGrafanaAlertRule(ctx context.Context) *plugin.Table {
 		// with hydration of Get data.
 		Columns: []*plugin.Column{
 			// Top columns
-			{Name: "id", Type: proto.ColumnType_INT, Description: "Unique identifier for the dashboard."},
+			{Name: "id", Type: proto.ColumnType_INT, Description: "Unique identifier for the alert rule."},
 			{Name: "uid", Type: proto.ColumnType_STRING, Transform: transform.FromField("UID"), Description: "Globally unique identifier for the alert rule."},
 			{Name: "title", Type: proto.ColumnType_STRING, Description: "Title of the alert rule."},
 			// Other columns
 			{Name: "condition", Type: proto.ColumnType_STRING, Description: "Condition of the alert rule."},
-			{Name: "interval", Type: proto.ColumnType_STRING, Transform: transform.FromField("For"), Description: "Interval of the alert rule."},
+			{Name: "interval", Type: proto.ColumnType_STRING, Transform: transform.FromField("For"), Description: "Evaluation interval for the alert rule."},
 			{Name: "is_paused", Type: proto.ColumnType_BOOL, Description: "True if the alert rule has been paused."},
 			{Name: "no_data_state", Type: proto.ColumnType_STRING, Description: "No data state of the alert rule."},
 			{Name: "execution_error_state", Type: proto.ColumnType_STRING, Description: "Execution error state of the alert rule."},
@@ -44,9 +44,8 @@ func listAlertRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		return nil, err
 	}
 
-	// Use the folder permissions API to get permissions for the folder
+	// Use the Provisioning API to get permissions for the folder
 	result, err := conn.client.Provisioning.GetAlertRules()
-	plugin.Logger(ctx).Debug("result", "result", result)
 	if err != nil {
 		if isNotFoundError(err) {
 			return nil, nil
