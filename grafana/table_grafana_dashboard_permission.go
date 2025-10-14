@@ -34,7 +34,7 @@ func tableGrafanaDashboardPermission(ctx context.Context) *plugin.Table {
 func listDashboardPermission(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("grafana_dashboard.listDashboardPermission", "connection_error", err)
+		plugin.Logger(ctx).Error("grafana_dashboard_permission.listDashboardPermission", "connection_error", err)
 		return nil, err
 	}
 	duid := d.EqualsQuals["dashboard_uid"].GetStringValue()
@@ -45,7 +45,7 @@ func listDashboardPermission(ctx context.Context, d *plugin.QueryData, _ *plugin
 		if isNotFoundError(err) {
 			return nil, nil
 		}
-		plugin.Logger(ctx).Error("grafana_dashboard.listDashboardPermission", "query_error", err, "dashboard_uid", duid)
+		plugin.Logger(ctx).Error("grafana_dashboard_permission.listDashboardPermission", "query_error", err, "dashboard_uid", duid)
 		return nil, err
 	}
 
