@@ -13,7 +13,7 @@ func tableGrafanaAlertRule(ctx context.Context) *plugin.Table {
 		Name:        "grafana_alert_rule",
 		Description: "Alert rules in the Grafana installation.",
 		List: &plugin.ListConfig{
-			Hydrate: listAlertRule,
+			Hydrate: listAlertRules,
 		},
 		// NOTE: When using the SDK, the Get does not include most of the List
 		// information, so is deliberately not implemented. Instead we rely on list
@@ -37,10 +37,10 @@ func tableGrafanaAlertRule(ctx context.Context) *plugin.Table {
 	}
 }
 
-func listAlertRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
+func listAlertRules(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateData) (interface{}, error) {
 	conn, err := connect(ctx, d)
 	if err != nil {
-		plugin.Logger(ctx).Error("grafana_alert_rule.listAlertRule", "connection_error", err)
+		plugin.Logger(ctx).Error("grafana_alert_rule.listAlertRules", "connection_error", err)
 		return nil, err
 	}
 
@@ -50,7 +50,7 @@ func listAlertRule(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateDa
 		if isNotFoundError(err) {
 			return nil, nil
 		}
-		plugin.Logger(ctx).Error("grafana_alert_rule.listAlertRule", "query_error", err)
+		plugin.Logger(ctx).Error("grafana_alert_rule.listAlertRules", "query_error", err)
 		return nil, err
 	}
 
