@@ -8,7 +8,7 @@ require (
 	github.com/go-openapi/strfmt v0.23.0
 	github.com/grafana/grafana-openapi-client-go v0.0.0-20250821140309-7f4c35f8ae28
 	github.com/hashicorp/go-cleanhttp v0.5.2
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.13.0
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.13.1
 )
 
 require (
@@ -58,7 +58,7 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.3.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.12.3 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1 // indirect
-	github.com/hashicorp/go-getter v1.7.5 // indirect
+	github.com/hashicorp/go-getter v1.7.9 // indirect
 	github.com/hashicorp/go-hclog v1.6.3 // indirect
 	github.com/hashicorp/go-plugin v1.6.1 // indirect
 	github.com/hashicorp/go-safetemp v1.0.0 // indirect
@@ -92,7 +92,7 @@ require (
 	github.com/stevenle/topsort v0.2.0 // indirect
 	github.com/tkrajina/go-reflector v0.5.6 // indirect
 	github.com/turbot/go-kit v1.1.0 // indirect
-	github.com/ulikunitz/xz v0.5.10 // indirect
+	github.com/ulikunitz/xz v0.5.15 // indirect
 	github.com/zclconf/go-cty v1.14.4 // indirect
 	go.mongodb.org/mongo-driver v1.14.0 // indirect
 	go.opencensus.io v0.24.0 // indirect

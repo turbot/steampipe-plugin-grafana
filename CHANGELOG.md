@@ -1,3 +1,20 @@
+## v1.3.0 [2025-10-27]
+
+_What's new?_
+
+- New tables added
+  - [grafana_alert_rule](https://hub.steampipe.io/plugins/turbot/grafana/tables/grafana_alert_rule) ([#51](https://github.com/turbot/steampipe-plugin-grafana/pull/51)) (Thanks [@codenio](https://github.com/codenio) for the contribution!!)
+
+_Bug fixes_
+
+- Fixed the `folder_uid` column of `grafana_folder_permission` table to correctly return data instead of `null`. ([#49](https://github.com/turbot/steampipe-plugin-grafana/pull/49)) (Thanks [@codenio](https://github.com/codenio) for the contribution!!)
+
+## v1.2.1 [2025-10-13]
+
+_Dependencies_
+
+- Recompiled plugin with [steampipe-plugin-sdk v5.13.1](https://github.com/turbot/steampipe-plugin-sdk/blob/develop/CHANGELOG.md#v5131-2025-09-25) that addresses critical and high vulnerabilities in dependent packages. ([#48](https://github.com/turbot/steampipe-plugin-grafana/pull/48))
+
 ## v1.2.0 [2025-09-04]
 
 _Dependencies_
