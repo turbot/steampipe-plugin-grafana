@@ -18,6 +18,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			ShouldIgnoreError: isNotFoundError,
 		},
 		TableMap: map[string]*plugin.Table{
+			"grafana_alert_rule":           tableGrafanaAlertRule(ctx),
 			"grafana_dashboard":            tableGrafanaDashboard(ctx),
 			"grafana_dashboard_permission": tableGrafanaDashboardPermission(ctx),
 			"grafana_datasource":           tableGrafanaDatasource(ctx),
