@@ -33,3 +33,35 @@ from
 where
   dashboard_uid = 'BtcDlQ97z';
 ```
+
+### List dashboards with their permissions
+Explore all dashboards and their associated permissions to understand who can access or administer each dashboard.
+
+```sql+postgres
+select
+  d.uid,
+  d.title,
+  dp.*
+from
+  grafana_dashboard as d
+  join grafana_dashboard_permission as dp
+    on d.uid = dp.dashboard_uid;
+```
+
+### Find dashboards where a specific user has admin access
+Identify dashboards where a given user has `Admin` level permission.
+
+```sql+postgres
+select
+  d.uid,
+  d.title,
+  dp.user_id,
+  dp.permission_name
+from
+  grafana_dashboard as d
+  join grafana_dashboard_permission as dp
+    on d.uid = dp.dashboard_uid
+where
+  dp.user_id = 584
+  and dp.permission_name = 'Admin';
+```
