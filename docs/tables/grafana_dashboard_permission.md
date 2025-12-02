@@ -1,6 +1,6 @@
 ---
 title: "Steampipe Table: grafana_dashboard_permission - Query Grafana Dashboard Permissions using SQL"
-description: "Allows users to query Grafana  Permissions, specifically to retrieve information on the permissions assigned to dashboards within a Grafana instance."
+description: "Allows users to query Grafana Permissions, specifically to retrieve information on the permissions assigned to dashboards within a Grafana instance."
 ---
 
 # Table: grafana_dashboard_permission - Query Grafana Dashboard Permissions using SQL
