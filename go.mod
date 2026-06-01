@@ -6,7 +6,7 @@ require (
 	github.com/go-openapi/strfmt v0.23.0
 	github.com/grafana/grafana-openapi-client-go v0.0.0-20250821140309-7f4c35f8ae28
 	github.com/hashicorp/go-cleanhttp v0.5.2
-	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.0
+	github.com/turbot/steampipe-plugin-sdk/v5 v5.14.1
 )
 
 require (
