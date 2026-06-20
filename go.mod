@@ -92,7 +92,7 @@ require (
 	github.com/turbot/go-kit v1.1.0 // indirect
 	github.com/ulikunitz/xz v0.5.15 // indirect
 	github.com/zclconf/go-cty v1.14.4 // indirect
-	go.mongodb.org/mongo-driver v1.14.0 // indirect
+	go.mongodb.org/mongo-driver v1.17.7 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect
