@@ -4,8 +4,8 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 func tableGrafanaTeamMember(ctx context.Context) *plugin.Table {
@@ -49,7 +49,6 @@ func listTeamMember(ctx context.Context, d *plugin.QueryData, _ *plugin.HydrateD
 		plugin.Logger(ctx).Error("grafana_team.listTeamMember", "query_error", err, "team_id", tid)
 		return nil, err
 	}
-
 
 	for _, member := range result.Payload {
 		d.StreamListItem(ctx, member)
