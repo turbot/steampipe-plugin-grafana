@@ -16,7 +16,7 @@ import (
 	goapi "github.com/grafana/grafana-openapi-client-go/client"
 	"github.com/hashicorp/go-cleanhttp"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 // Client manages the connection configuration.
@@ -24,11 +24,11 @@ type Client struct {
 	client *goapi.GrafanaHTTPAPI
 }
 
-func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
+func connect(ctx context.Context, d *plugin.QueryData) (*Client, error) {
 
 	// Load connection from cache, which preserves throttling protection etc
 	cacheKey := "grafana"
-	if cachedData, ok := d.ConnectionManager.Cache.Get(cacheKey); ok {
+	if cachedData, ok := d.ConnectionCache.Get(ctx, cacheKey); ok {
 		return cachedData.(*Client), nil
 	}
 
@@ -151,7 +151,7 @@ func connect(_ context.Context, d *plugin.QueryData) (*Client, error) {
 	}
 
 	// Save to cache
-	d.ConnectionManager.Cache.Set(cacheKey, conn)
+	_ = d.ConnectionCache.Set(ctx, cacheKey, conn)
 
 	return conn, nil
 }
